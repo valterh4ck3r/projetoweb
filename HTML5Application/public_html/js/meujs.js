@@ -1,13 +1,12 @@
-function Login() {
+function Login() {    
     var done = 0;
-    var usuario = document.loginUsuario.nomeusuario.value;
+    var usuario = document.getElementById("loginUsuario").value;
     usuario = usuario.toLowerCase();
-    var senha = document.loginSenha.senha.value;
-    seha = senha.toLowerCase();
+    var senha = document.getElementById("loginSenha").valeu;
 
     if (usuario === "admin" && senha === "admin") {
         alert("Sucesso");
-        window.location = "/p/index.html";
+        alert("Usuário: " + usuario + "  " + "Senha: " + senha);
         done = 1;
     }
     if (done === 0) {
@@ -15,7 +14,3 @@ function Login() {
     }
 }
 
-function teste() {
-
-    alert(document.getElementById("loginUsuario").valeu);
-}
