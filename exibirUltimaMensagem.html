@@ -73,7 +73,7 @@
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
       <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">Registrar</span>
+          <span class="mdl-layout-title">Exibir Ultima Mensagem</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
             <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -113,34 +113,44 @@
         <div class="mdl-grid demo-content">
           <!-- Conteudo da Pagina -->
 
+      
         <div class="main-login main-center">
-          <form class="form" method="post" action="#">
+          <form class="form" method="POST" action="http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=cad_usuario">
             
             <div class="form-group">
-              <label for="name" class="cols-sm-2 control-label">Login</label>
+              <label for="name" class="cols-sm-2 control-label">Token</label>
               <div class="cols-sm-10">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                  <input type="text" class="form-control" name="nome" id="nome"  placeholder="Digite o seu nome"/>
+                  <input type="text" class="form-control" name="tokenUsuario" id="tokenUsuario"  placeholder="Digite o seu nome"/>
                 </div>
               </div>
             </div>
 
           
-
             <div class="form-group">
-              <label for="password" class="cols-sm-2 control-label">Senha</label>
+              <label for="password" class="cols-sm-2 control-label">Sala</label>
               <div class="cols-sm-10">
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                  <input type="password" class="form-control" name="senha" id="senha"  placeholder="Digite o sua senha"/>
+                  <input type="password" class="form-control" name="idSala" id="idSala"  placeholder="Digite a sua senha"/>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="cols-sm-2 control-label">ID da Ultima Mensagem</label>
+              <div class="cols-sm-10">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                  <input type="password" class="form-control" name="idUltimaMensagem" id="idUltimaMensagem"  placeholder="Digite a sua senha"/>
                 </div>
               </div>
             </div>
 
 
             <div class="form-group ">
-              <button id="btnRegistrar" type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="registrar()"> Registrar</button>
+              <button id="btnLogin" type="button" class="btn btn-primary btn-lg btn-block login-button" onclick="exibirUltimaMensagem()">Login</button>
             </div>
           </form>
         </div>
