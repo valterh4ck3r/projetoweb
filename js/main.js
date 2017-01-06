@@ -114,11 +114,13 @@ function cadastrarSala(){
 		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 		myRequest.onreadystatechange = function() {
-			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-				console.log(myRequest.responseText);
-				
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {							
 
-				var retorno = JSON
+				var retorno = JSON.stringify(retorno);
+
+				if(result='sucess'){
+					alert('Sala criada com sucesso');
+				}
 			}
 		}
 		myRequest.send(params);
@@ -179,7 +181,7 @@ function listarSalasPrivadas(){
 					//console.log('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
 				}
 
-				retorno = JSON.stringfy(retorno);
+				retorno = JSON.stringify(retorno);
 
 				alert(retorno);
 			}
@@ -194,6 +196,8 @@ function listarSalasPrivadas(){
 function listarMensagensSalaPrivada(){
 
 	var tokenUsuario = sessionStorage.getItem('token');
+
+	
 
 	if(tokenUsuario == null){
 		alert('Voce precisa estar logado.');
@@ -213,11 +217,9 @@ function listarMensagensSalaPrivada(){
 				
 				var retorno = JSON.parse(myRequest.responseText);
 
-				for(var i=0;i<retorno.data.length;i++){
-					console.log(retorno.data[i].nome);
-				}
+				alert(myRequest.responseText);
 
-				alert('Mensagens Listadas no Console');
+				
 			}
 		}
 
