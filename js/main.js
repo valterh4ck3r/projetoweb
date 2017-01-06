@@ -1,9 +1,13 @@
 
-/* 	Pego os valores de dois campos, login e senha
-*	Em seguida faço o request para URL que o professor disponibilizou no Web Service
-*	Em seguida seto o Header que é NECESSÁRIO para o servidor reconhecer o formulário
-*	Em seguida pego o retorno da requisição, separo o token e seto no sessionStorage.
-*/	
+	var token = sessionStorage.getItem('token');
+
+	var nomeUsuario = sessionStorage.getItem('nomeUsuario');	
+
+	if(token!=null && nomeUsuario!=null){
+		document.getElementById('nomeUsuario').innerText = 'Olá '+nomeUsuario;		
+	}
+
+
 function login(){
 	var login = document.getElementById('nome').value;
 	var senha = document.getElementById('senha').value;
@@ -17,27 +21,28 @@ function login(){
 	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+		if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
 
-	        var retorno = JSON.parse(myRequest.responseText);
+			var retorno = JSON.parse(myRequest.responseText);
 
-	        if(retorno.data[0]== null){
-	        	alert('Usuario ou Senha Invalido');
-	        }
-	        token = retorno.data[0].token;
+			if(retorno.data[0]== null){
+				alert('Usuario ou Senha Invalido');
+			}
+			token = retorno.data[0].token;
 
-	        if(token == null){
-	        	document.getElementById('nome').value = "";
-	        	document.getElementById('senha').value = "";
-	        	alert('Usuario e Senha Invalido');
-	        	console.log(myRequest.responseText);
-	        }
-	        else{
-	        	console.log(token);
-	        	sessionStorage.setItem('token', token);
-	        	alert('Login efetuado com sucesso.');
-	    	}
-	    }
+			if(token == null){
+				document.getElementById('nome').value = "";
+				document.getElementById('senha').value = "";
+				alert('Usuario e Senha Invalido');
+			}
+			else{
+				
+				sessionStorage.setItem('token', token);
+				sessionStorage.setItem('nomeUsuario', document.getElementById('nome').value);
+				alert('Login efetuado com sucesso.');
+				window.location.href= "./salas.html";
+			}
+		}
 	}
 
 
@@ -47,24 +52,22 @@ function login(){
 }
 
 
-/*
-* Ele busca no sessionStorage um token, se houver um token, ele remove, se não houver um token ele alerta ao usuario.
-*/
 function logout(){
 	var token = sessionStorage.getItem('token');
 
 	if(token==null){
 		alert('Voce ainda nao se logou na aplicação.');
+		window.location.href= "./login.html";
+	
 	}
 	else{
 		alert('Deslogado com sucesso');
 		sessionStorage.removeItem('token');
+		window.location.href= "./login.html";
 	}
 }
 
-/*	Faço o request para o URL que o professor disponibilizou no site.
-*	Em seguida envio os campos nome e senha para o URL
-*/
+
 function registrar(){
 	var login = document.getElementById('nome').value;
 	var senha = document.getElementById('senha').value;
@@ -78,33 +81,25 @@ function registrar(){
 	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+		if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
 
-	        var retorno = JSON.parse(myRequest.responseText);
+			var retorno = JSON.parse(myRequest.responseText);
 
-	        alert(retorno.message);
+			alert(retorno.message);
 
-	        document.getElementById('nome').value = "";
-	        document.getElementById('senha').value = "";
-	    }
+			document.getElementById('nome').value = "";
+			document.getElementById('senha').value = "";
+		}
 	}
 
 	myRequest.send(params);
 }
 
 
-/* 	Pego os valores dos campos
-* 	Verifico se tem token no session Storage para poder cadastrar uma sala.
-*	Em seguida eu registro a sala.
-*
-*	OBS.: Parametro esta informado errado, quando era pra ser SALA, está informando NOME.
-*/	
 function cadastrarSala(){
 	var nomeSala = document.getElementById('nomeSala').value;
 
 	var token = sessionStorage.getItem('token');
-
-	console.log(token);
 
 	if(token == null){
 		alert('Você precisa estar logado para cadastrar uma sala');
@@ -119,20 +114,19 @@ function cadastrarSala(){
 		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 		myRequest.onreadystatechange = function() {
-		    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-		        console.log(myRequest.responseText);
-		        
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				console.log(myRequest.responseText);
+				
 
-		        var retorno = JSON
-		    }
+				var retorno = JSON
+			}
 		}
 		myRequest.send(params);
 	}
 }
 
 
-/* 	Apenas um request para listar as salas em um alert.
-*/
+
 function listarSalasPublicas(){
 
 	var myRequest = new XMLHttpRequest();
@@ -142,115 +136,134 @@ function listarSalasPublicas(){
 	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+		if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
 
-	        var retorno = JSON.parse(myRequest.responseText);
+			var retorno = JSON.parse(myRequest.responseText);
 
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
-	        }
+			for(var i=0;i<retorno.data.length;i++){
+				//alert('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
+			}
 
-	        alert('Salas listadas no Console');	        	
-	     
-	    }
+			retorno = JSON.stringify(retorno);
+
+			alert(retorno);  
+			
+		}
 	}
 
 	myRequest.send();
 }
 
 
-/* 	Pego os valores dos campos
-* 	Pego o valor do campo Token e passo por paramentro
-*	Em seguida eu mostro ao usuario em um alert.
-*/
 function listarSalasPrivadas(){
 
-	var tokenUsuario = document.getElementById('tokenUsuario').value;
+	var tokenUsuario = sessionStorage.getItem('token');
 
-	var params = 'token='+tokenUsuario;
-
-	var myRequest = new XMLHttpRequest();
-
-	myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=minhas_salas&token='+tokenUsuario);
-
-	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-	        
-	        var retorno = JSON.parse(myRequest.responseText);
-
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
-	        }
-
-	        alert('Salas Listadas no Console');
-	    }
+	if(tokenUsuario==null){
+		alert('Voce precisa estar logado na aplicacao');
 	}
+	else{ 
 
-	myRequest.send();
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=minhas_salas&token='+tokenUsuario);
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
+
+				for(var i=0;i<retorno.data.length;i++){
+					//console.log('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
+				}
+
+				retorno = JSON.stringfy(retorno);
+
+				alert(retorno);
+			}
+		}
+
+		myRequest.send();
+	}
 
 
 }
 
 function listarMensagensSalaPrivada(){
 
-	var tokenUsuario = document.getElementById('tokenUsuario').value;
+	var tokenUsuario = sessionStorage.getItem('token');
 
-	var idSala = document.getElementById('idSala').value;
-
-	var myRequest = new XMLHttpRequest();
-
-	myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+idSala);
-
-	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-	        
-	        var retorno = JSON.parse(myRequest.responseText);
-
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log(retorno.data[i].nome);
-	        }
-
-	        alert('Mensagens Listadas no Console');
-	    }
+	if(tokenUsuario == null){
+		alert('Voce precisa estar logado.');
 	}
+	else{
 
-	myRequest.send();
+		var idSala = document.getElementById('idSala').value;
+
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+idSala);
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
+
+				for(var i=0;i<retorno.data.length;i++){
+					console.log(retorno.data[i].nome);
+				}
+
+				alert('Mensagens Listadas no Console');
+			}
+		}
+
+		myRequest.send();
+	}
 
 }
 
 
 function exibirUltimaMensagem(){
 
-	var tokenUsuario = document.getElementById('tokenUsuario').value;
+	var tokenUsuario = sessionStorage.getItem('token');
 
-	var idSala = document.getElementById('idSala').value;
+	if(tokenUsuario==null){
+		alert('Você precisa estar logado.');
+	}
+	else{
 
-	var idUltimaMensagem = document.getElementById('idUltimaMensagem').value;
+		var idSala = document.getElementById('idSala').value;
 
-	var myRequest = new XMLHttpRequest();
+		var idUltimaMensagem = document.getElementById('idUltimaMensagem').value;
 
-	myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+idSala+'&id='+tokenUsuario);
+		var myRequest = new XMLHttpRequest();
 
-	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+idSala+'&id='+tokenUsuario);
 
-	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-	        
-	        var retorno = JSON.parse(myRequest.responseText);
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log(retorno.data[i].nome);
-	        }
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
 
-	        alert('Mensagens Listadas no Console');
-	    }
+				for(var i=0;i<retorno.data.length;i++){
+					console.log(retorno.data[i].nome);
+				}
+
+				alert('Mensagens Listadas no Console');
+			}
+		}
+
+		myRequest.send();
+
 	}
 
-	myRequest.send();
+	
 
 
 }
@@ -258,55 +271,108 @@ function exibirUltimaMensagem(){
 
 function tornarSalaPrivada(){
 
-	var tokenUsuario = document.getElementById('tokenUsuario').value;
+	var tokenUsuario = sessionStorage.getItem('token');
 
-	var idSala = document.getElementById('idSala').value;
-
-	var myRequest = new XMLHttpRequest();
-
-	myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=sala_privada&token='+tokenUsuario+'&sala='+idSala);
-
-	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-	        
-	        var retorno = JSON.parse(myRequest.responseText);
-
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log(retorno.data[i].nome);
-	        }
-
-	        alert('A Sala é privada agora');
-	    }
+	if(tokenUsuario==null){
+		alert('Você precisa estar logado.');
 	}
+	else{
 
-	myRequest.send();
+		var idSala = document.getElementById('idSala').value;
+
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=sala_privada&token='+tokenUsuario+'&sala='+idSala);
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
+
+				for(var i=0;i<retorno.data.length;i++){
+					console.log(retorno.data[i].nome);
+				}
+
+				alert('A Sala é privada agora');
+			}
+		}
+
+		myRequest.send();
+	}
 }
 
 function tornarSalaPublica(){
-	var tokenUsuario = document.getElementById('tokenUsuario').value;
+	var tokenUsuario = sessionStorage.getItem('token');
 
-	var idSala = document.getElementById('idSala').value;
-
-	var myRequest = new XMLHttpRequest();
-
-	myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=sala_publica&token='+tokenUsuario+'&sala='+idSala);
-
-	myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-	myRequest.onreadystatechange = function() {
-	    if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
-	        
-	        var retorno = JSON.parse(myRequest.responseText);
-
-	        for(var i=0;i<retorno.data.length;i++){
-	        	console.log(retorno.data[i].nome);
-	        }
-
-	        alert('A Sala é pública agora');
-	    }
+	if(tokenUsuario==null){
+		alert('Você precisa estar logado.');
 	}
+	else{
 
-	myRequest.send();
+		var idSala = document.getElementById('idSala').value;
+
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=sala_publica&token='+tokenUsuario+'&sala='+idSala);
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
+
+				for(var i=0;i<retorno.data.length;i++){
+					console.log(retorno.data[i].nome);
+				}
+
+				alert('A Sala é pública agora');
+			}
+		}
+
+		myRequest.send();
+	}
+}
+
+
+function cadastrarMensagem(){
+
+	var tokenUsuario = sessionStorage.getItem('token');
+
+	if(tokenUsuario == null){
+		alert('Voce precisa estar logado na aplicacao');
+	}
+	else{
+		var idSala = document.getElementById('idSala').value;
+
+		var mensagem = document.getElementById('mensagem').value;
+
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('POST', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=cad_mensagem');
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+				
+				var retorno = JSON.parse(myRequest.responseText);
+
+				console.log(retorno);
+
+				if(retorno.result == 'Erro'){
+					alert('Ocorreu um erro interno.');
+				}
+				else{
+					alert('Mensagem Cadastrada com sucesso');
+				}
+			}
+		}
+
+		var params = 'token='+tokenUsuario+'&sala='+ idSala+'&mensagem='+mensagem;
+
+		myRequest.send(params);
+	}
 }

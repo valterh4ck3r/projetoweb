@@ -76,9 +76,7 @@
           <span class="mdl-layout-title">Listar Salas Privadas</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-              <i class="material-icons">search</i>
-            </label>
+            <div id="nomeUsuario"> </div>
             <div class="mdl-textfield__expandable-holder">
               <input class="mdl-textfield__input" type="text" id="search">
               <label class="mdl-textfield__label" for="search">Enter your query...</label>
@@ -101,7 +99,8 @@
           <a id="menuRegistrar" class="mdl-navigation__link" href="./index.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i>Registro</a>
           <a id="menuCadastrarSalas" class="mdl-navigation__link" href="./salas.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">contacts</i>Cadastrar Salas</a>
           <a id="menuListarSalasPublicar" class="mdl-navigation__link" href="#" onclick="listarSalasPublicas();"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Listar Salas Publicas</a>
-          <a id="menuListarSalasPrivadas" class="mdl-navigation__link" href="./listarSalasPrivadas.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat</i>Listar Salas Privadas</a>
+          <a id="menuListarSalasPrivadas" class="mdl-navigation__link" href="#" onclick="listarSalasPrivadas()"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat</i>Listar Salas Privadas</a>
+          <a id="menuCadastrarMensagem" class="mdl-navigation__link" href="./cadastrarMensagem.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">playlist_add</i>Cadastrar Mensagem</a>
           <a id="menuListarMensagens" class="mdl-navigation__link" href="./listarMensagensSalaPrivada.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">contact_mail</i>Listar Mensagens da Sala</a>
           <a id="menuExibirUltimaMensagem" class="mdl-navigation__link" href="./exibirUltimaMensagem.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">sms</i>Exibir Ultima Mensagem</a>
           <a id="menuTornarSalaPrivada" class="mdl-navigation__link" href="./tornarSalaPrivada.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">lock_outline</i>Tornar Sala Privada</a>
