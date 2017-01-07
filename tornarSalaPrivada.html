@@ -91,11 +91,15 @@
           <a id ="menuLogin" class="mdl-navigation__link" href="./login.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Login</a>
           <a id="menuRegistrar" class="mdl-navigation__link" href="./index.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">add</i>Registro</a>
           <a id="menuCadastrarSalas" class="mdl-navigation__link" href="./salas.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">contacts</i>Cadastrar Salas</a>
+
+          <!--
           <a id="menuListarSalasPublicar" class="mdl-navigation__link" href="#" onclick="listarSalasPublicas();"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">forum</i>Listar Salas Publicas</a>
           <a id="menuListarSalasPrivadas" class="mdl-navigation__link" href="#" onclick="listarSalasPrivadas()"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat</i>Listar Salas Privadas</a>
           <a id="menuCadastrarMensagem" class="mdl-navigation__link" href="./cadastrarMensagem.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">playlist_add</i>Cadastrar Mensagem</a>
           <a id="menuListarMensagens" class="mdl-navigation__link" href="./listarMensagensSalaPrivada.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">contact_mail</i>Listar Mensagens da Sala</a>
           <a id="menuExibirUltimaMensagem" class="mdl-navigation__link" href="./exibirUltimaMensagem.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">sms</i>Exibir Ultima Mensagem</a>
+          -->
+
           <a id="menuTornarSalaPrivada" class="mdl-navigation__link" href="./tornarSalaPrivada.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">lock_outline</i>Tornar Sala Privada</a>
           <a id="menuTornarSalaPublica" class="mdl-navigation__link" href="./tornarSalaPublica.html" onclick=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">lock_open</i>Tornar Sala Publica</a>
           <a id="menuListarSalasPrivadas" class="mdl-navigation__link" href="./chat.html"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">chat</i>Chat</a>
@@ -111,13 +115,14 @@
           <form class="form" method="POST" action="http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=cad_usuario">
 
             <div class="form-group">
-              <label for="password" class="cols-sm-2 control-label">ID da Sala</label>
-              <div class="cols-sm-10">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                  <input type="password" class="form-control" name="idSala" id="idSala"  placeholder="Digite o ID da Sala"/>
+              <label for="name" class="cols-sm-2 control-label">Selecione uma Sala</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <label for=""></label>
+                  <select class="form-control" id="selectSalaPublica">
+                    <option>Selecione uma Sala</option>
+                  </select>
                 </div>
-              </div>
             </div>
 
 
