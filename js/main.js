@@ -1,11 +1,11 @@
 
-	var token = sessionStorage.getItem('token');
+var token = sessionStorage.getItem('token');
 
-	var nomeUsuario = sessionStorage.getItem('nomeUsuario');	
+var nomeUsuario = sessionStorage.getItem('nomeUsuario');	
 
-	if(token!=null && nomeUsuario!=null){
-		document.getElementById('nomeUsuario').innerText = 'Olá '+nomeUsuario;		
-	}
+if(token!=null && nomeUsuario!=null){
+	document.getElementById('nomeUsuario').innerText = 'Olá '+nomeUsuario;		
+}
 
 
 function login(){
@@ -40,7 +40,7 @@ function login(){
 				sessionStorage.setItem('token', token);
 				sessionStorage.setItem('nomeUsuario', document.getElementById('nome').value);
 				alert('Login efetuado com sucesso.');
-				window.location.href= "./salas.html";
+				window.location.href= "./chat.html";
 			}
 		}
 	}
@@ -58,7 +58,7 @@ function logout(){
 	if(token==null){
 		alert('Voce ainda nao se logou na aplicação.');
 		window.location.href= "./login.html";
-	
+
 	}
 	else{
 		alert('Deslogado com sucesso');
@@ -377,4 +377,148 @@ function cadastrarMensagem(){
 
 		myRequest.send(params);
 	}
+
+}
+
+
+if(document.readyState == 'loading'){
+
+	var selectSalaPublica = document.getElementById('selectSalaPublica');
+
+	if(selectSalaPublica != null){
+	
+		var myRequest = new XMLHttpRequest();
+
+		myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=salas');
+
+		myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		myRequest.onreadystatechange = function() {
+			if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+
+				var retorno = JSON.parse(myRequest.responseText);
+
+
+				for(var i=0;i<retorno.data.length;i++){
+					
+					var option = document.createElement('option');
+
+					//console.log(retorno.data[i].nome);
+
+					option.value =retorno.data[i].id;
+
+					option.innerHTML = retorno.data[i].nome;
+
+					//alert('ID : '+ retorno.data[i].id +' Nome: '+retorno.data[i].nome);
+
+					selectSalaPublica.appendChild(option);
+				}
+
+				retorno = JSON.stringify(retorno);
+
+				//alert(retorno);  
+				
+			}
+		}
+
+		myRequest.send();
+	}
+}
+
+
+var selectSalaPublica = document.getElementById('selectSalaPublica');
+
+if(selectSalaPublica != null){
+
+	selectSalaPublica.addEventListener('change', function(){
+
+		var itemSelecionado = this.options[this.selectedIndex].value;
+
+		var tokenUsuario = sessionStorage.getItem('token');
+		
+
+		if(tokenUsuario == null){
+			alert('Voce precisa estar logado para participar de uma sala');
+		}
+		else{
+
+			document.getElementById('CaixaMensagens').innerHTML = "";
+
+			var myRequest = new XMLHttpRequest();
+
+			myRequest.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+itemSelecionado);
+
+			myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+			myRequest.onreadystatechange = function() {
+				if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+					
+					var retorno = JSON.parse(myRequest.responseText);
+
+					var caixaMensagens = document.getElementById('CaixaMensagens');
+
+					for(var i=0;i<retorno.data.length;i++){
+						caixaMensagens.innerHTML += retorno.data[i].mensagem +" <br>";
+						console.log(retorno.data[i].mensagem);
+					}
+
+
+					
+				}
+			}
+
+			myRequest.send();
+		}
+
+	});
+
+
+	document.getElementById('enviarMensagem').addEventListener('click',function(){
+
+		var selectSalaPublica = document.getElementById('selectSalaPublica');
+
+		var itemSelecionado = selectSalaPublica.options[selectSalaPublica.selectedIndex].value;
+
+		var tokenUsuario = sessionStorage.getItem('token');
+
+		if(tokenUsuario == null){
+			alert('Voce precisa estar logado na aplicacao');
+		}
+		else{
+			var idSala = itemSelecionado;
+
+			var mensagem = document.getElementById('mensagem').value;
+
+			var myRequest = new XMLHttpRequest();
+
+			myRequest.open('POST', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=cad_mensagem');
+
+			myRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+			myRequest.onreadystatechange = function() {
+				if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
+					
+					var retorno = JSON.parse(myRequest.responseText);
+
+					console.log(retorno);
+
+					if(retorno.result == 'Erro'){
+						alert('Ocorreu um erro interno.');
+					}
+					else{
+
+						var caixaMensagens = document.getElementById("CaixaMensagens");
+
+						caixaMensagens.innerHTML += mensagem;
+
+					}
+				}
+			}
+
+			var params = 'token='+tokenUsuario+'&sala='+ idSala+'&mensagem='+mensagem;
+
+			myRequest.send(params);
+			}
+		});
+	
 }
