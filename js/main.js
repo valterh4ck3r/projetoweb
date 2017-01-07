@@ -509,13 +509,17 @@ if(selectSalaPublica != null){
 
 						var caixaMensagens = document.getElementById("CaixaMensagens");
 
-						caixaMensagens.innerHTML += mensagem;
+						var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+
+						caixaMensagens.innerHTML += nomeUsuario+' enviou : '+mensagem;
 
 					}
 				}
 			}
 
-			var params = 'token='+tokenUsuario+'&sala='+ idSala+'&mensagem='+mensagem;
+			var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+
+			var params = 'token='+tokenUsuario+'&sala='+ idSala+'&mensagem='+nomeUsuario+' enviou : '+mensagem;
 
 			myRequest.send(params);
 			}
