@@ -36,7 +36,7 @@ function login(){
 				alert('Usuario e Senha Invalido');
 			}
 			else{
-				
+
 				sessionStorage.setItem('token', token);
 				sessionStorage.setItem('nomeUsuario', document.getElementById('nome').value);
 				alert('Login efetuado com sucesso.');
@@ -457,11 +457,11 @@ if(window.location.href.includes('tornarSalaPrivada')){
 				myRequest.onreadystatechange = function() {
 					if(myRequest.readyState == XMLHttpRequest.DONE && myRequest.status == 200) {
 
-					var retorno = JSON.parse(myRequest.responseText);
+						var retorno = JSON.parse(myRequest.responseText);
 
-					for(var i=0;i<retorno.data.length;i++){
-						
-						var option = document.createElement('option');
+						for(var i=0;i<retorno.data.length;i++){
+
+							var option = document.createElement('option');
 
 						//console.log(retorno.data[i].nome);
 
@@ -481,15 +481,15 @@ if(window.location.href.includes('tornarSalaPrivada')){
 				}
 			}
 
-				myRequest.send();
-			};
-		}
+			myRequest.send();
+		};
 	}
+}
 
-	else if(window.location.href.includes('tornarSalaPublica')){
-		var selectSalaPublica = document.getElementById('selectSalaPublica');
+else if(window.location.href.includes('tornarSalaPublica')){
+	var selectSalaPublica = document.getElementById('selectSalaPublica');
 
-		if(selectSalaPublica != null){
+	if(selectSalaPublica != null){
 
 			//var itemSelecionado = this.options[this.selectedIndex].value;
 
@@ -551,6 +551,50 @@ else{
 	if(selectSalaPublica != null){
 
 		selectSalaPublica.addEventListener('change', function(){
+
+			setInterval(
+				function(){
+					
+					var caixaMensagens = document.getElementById("CaixaMensagens");
+
+							var nomeUsuario = sessionStorage.getItem('nomeUsuario');
+
+							//caixaMensagens.innerHTML += nomeUsuario+' enviou : '+mensagem;
+
+
+
+							var itemSelecionado = selectSalaPublica.options[selectSalaPublica.selectedIndex].value;
+
+							var tokenUsuario = sessionStorage.getItem('token');
+
+							var myRequest1 = new XMLHttpRequest();
+
+							myRequest1.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+itemSelecionado);
+
+							myRequest1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+							myRequest1.onreadystatechange = function() {
+								if(myRequest1.readyState == XMLHttpRequest.DONE && myRequest1.status == 200) {
+
+									var retorno = JSON.parse(myRequest1.responseText);
+
+									var caixaMensagens = document.getElementById('CaixaMensagens');
+
+									for(var i=0;i<retorno.data.length;i++){
+										caixaMensagens.innerHTML += retorno.data[i].mensagem +" <br>";
+										//console.log(retorno.data[i].mensagem);
+									}
+
+
+
+								}
+							}
+
+							caixaMensagens.innerHTML = ""
+
+							myRequest1.send();
+			
+		}, 3000);
 
 			var itemSelecionado = this.options[this.selectedIndex].value;
 
@@ -631,7 +675,40 @@ else{
 
 							var nomeUsuario = sessionStorage.getItem('nomeUsuario');
 
-							caixaMensagens.innerHTML += nomeUsuario+' enviou : '+mensagem;
+							//caixaMensagens.innerHTML += nomeUsuario+' enviou : '+mensagem;
+
+
+
+							var itemSelecionado = selectSalaPublica.options[selectSalaPublica.selectedIndex].value;
+
+							var tokenUsuario = sessionStorage.getItem('token');
+
+							var myRequest1 = new XMLHttpRequest();
+
+							myRequest1.open('GET', 'http://www.henriquesantos.pro.br/~hctsantos/chat.php?acao=mensagens_sala&token='+tokenUsuario+'&sala='+itemSelecionado);
+
+							myRequest1.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+							myRequest1.onreadystatechange = function() {
+								if(myRequest1.readyState == XMLHttpRequest.DONE && myRequest1.status == 200) {
+
+									var retorno = JSON.parse(myRequest1.responseText);
+
+									var caixaMensagens = document.getElementById('CaixaMensagens');
+
+									for(var i=0;i<retorno.data.length;i++){
+										caixaMensagens.innerHTML += retorno.data[i].mensagem +" <br>";
+										//console.log(retorno.data[i].mensagem);
+									}
+
+
+
+								}
+							}
+
+							caixaMensagens.innerHTML = ""
+
+							myRequest1.send();
 
 						}
 					}
@@ -648,5 +725,9 @@ else{
 		});
 	}
 }
+
+
+
+
 
 
