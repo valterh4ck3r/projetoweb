@@ -254,7 +254,7 @@ function exibirUltimaMensagem(){
 				var retorno = JSON.parse(myRequest.responseText);
 
 				for(var i=0;i<retorno.data.length;i++){
-					console.log(retorno.data[i].nome);
+					//console.log(retorno.data[i].nome);
 				}
 
 				alert('Mensagens Listadas no Console');
@@ -298,7 +298,7 @@ function tornarSalaPrivada(){
 				var retorno = JSON.parse(myRequest.responseText);
 
 				for(var i=0;i<retorno.data.length;i++){
-					console.log(retorno.data[i].nome);
+					//console.log(retorno.data[i].nome);
 				}
 
 				alert('Voce so pode tornar uma sala privada ou pulica se você for o dono da sala.');
@@ -337,7 +337,7 @@ function tornarSalaPublica(){
 				var retorno = JSON.parse(myRequest.responseText);
 
 				for(var i=0;i<retorno.data.length;i++){
-					console.log(retorno.data[i].nome);
+					//console.log(retorno.data[i].nome);
 				}
 			}
 		}
@@ -370,7 +370,7 @@ function cadastrarMensagem(){
 				
 				var retorno = JSON.parse(myRequest.responseText);
 
-				console.log(retorno);
+				//console.log(retorno);
 
 				if(retorno.result == 'Erro'){
 					alert('Ocorreu um erro interno.');
@@ -579,7 +579,7 @@ else{
 
 						for(var i=0;i<retorno.data.length;i++){
 							caixaMensagens.innerHTML += retorno.data[i].mensagem +" <br>";
-							console.log(retorno.data[i].mensagem);
+							//console.log(retorno.data[i].mensagem);
 						}
 
 
@@ -620,7 +620,7 @@ else{
 
 						var retorno = JSON.parse(myRequest.responseText);
 
-						console.log(retorno);
+						//console.log(retorno);
 
 						if(retorno.result == 'Erro'){
 							alert('Ocorreu um erro interno.');
@@ -642,6 +642,8 @@ else{
 				var params = 'token='+tokenUsuario+'&sala='+ idSala+'&mensagem='+nomeUsuario+' enviou : '+mensagem;
 
 				myRequest.send(params);
+
+				document.getElementById('mensagem').value = "";
 			}
 		});
 	}
